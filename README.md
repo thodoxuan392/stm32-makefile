@@ -19,6 +19,14 @@ You must create ssh-key in your machine, and add public key to remote machine.
 - Private Key will be located at [*Cert*](./Cert) folder.
 - Public Key will be put in Remote Server.
 
+Create SSHKEY-Pair
+```
+ssh-keygen
+```
+Entering Name of Key, example: **stm32key**
+
+
+
 ## Step by Step
 1. Clean Project
     ```
