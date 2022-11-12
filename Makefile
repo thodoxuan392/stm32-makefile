@@ -40,7 +40,12 @@ BUILD_DIR = build
 # source
 ######################################
 # C sources
-C_SOURCES =  ${shell find ./ -type f -name "*.c"}
+
+ifeq ($(OS),Windows_NT)
+	C_SOURCES =  ${shell find ./ -type f -name "*.c"}
+else  
+	C_SOURCES =  ${shell find ./ -type f -name "*.c"}
+endif
 
 # ASM sources
 ASM_SOURCES =  Core/Startup/startup_stm32f103rbtx.s
@@ -147,21 +152,20 @@ $(BUILD_DIR):
 	mkdir $@
 
 #######################################
-# Remote Deploy
+# Local Deploy
 #######################################		
 flash-local: $(BUILD_DIR)/$(TARGET).bin
 	st-flash write $< 0x08000000
 
 #######################################
-# Local Deploy
+# Remote Deploy
 #######################################		
 flash-remote: $(BUILD_DIR)/$(TARGET).bin
 	@echo "Copy file to Remote Server $(USER) $(PASSWD) $(SERVER):$(PORT)" 
-	@scp -i ./Cert/key $(BUILD_DIR)/$(TARGET).bin ~/
+	@sshpass -p "$(PASSWD)"  scp -o StrictHostKeyChecking=no -i ./Cert/key  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
 	@echo "Flash file to remote target device"
-	@sshpass -p "$(PASSWD)" ssh -i ./Cert/key $(USER)@$(SERVER) -p $(PORT) "st-flash write ~/$(TARGET).bin 0x08000000;"
+	@sshpass -p "$(PASSWD)" ssh -o StrictHostKeyChecking=no -i ./Cert/key -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
 	
-
 
 #######################################
 # clean up

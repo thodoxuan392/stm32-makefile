@@ -17,7 +17,7 @@ In [Board Define file](./board.mk), you must change BOARD_FAMILY and BOARD_DEFIN
 ## Configurate SSH Key-Pair
 You must create ssh-key in your machine, and add public key to remote machine.
 - Private Key will be located at [*Cert*](./Cert) folder.
-- Public Key will be put in Remote Server.
+- Public Key will be put in Remote Server (https://ngrok.com/)
 
 Create SSHKEY-Pair
 ```
@@ -44,9 +44,10 @@ Entering Name of Key, example: **stm32key**
     ```
 4. Flash Remote device
     ```
-    make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT={SSH_PORT}
+    make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT=(SSH_PORT)
     ```
     **Example**
     ```
-    make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=10865
+    make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=15025
     ```
+    *Note: The PORT or SSH_PORT can be changed. Please request new PORT at anytime access to deploy in remote device.*
