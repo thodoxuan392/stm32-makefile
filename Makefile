@@ -6,12 +6,13 @@
 # Generic Makefile (based on gcc)
 #
 # ChangeLog :
+#   2022-11-10 - Update flow for remote deployment
 #	2017-02-10 - Several enhancements + project update mode
 #   2015-07-22 - first version
 # ------------------------------------------------
 
 ##################################################
-# Edited by Ngo Hung Cuong
+# Edited by Xuan Tho Do
 ##################################################
 include toolchain.mk
 include board.mk
@@ -86,7 +87,7 @@ C_DEFS =  \
 AS_INCLUDES = 
 
 # C includes
-C_INCLUDES =  \
+C_INCLUDES = $(GCC_INCLUDE_PATH)  \
 -ICore/Inc \
 -IDrivers/$(BOARD_FAMILY)_HAL_Driver/Inc/Legacy \
 -IDrivers/$(BOARD_FAMILY)_HAL_Driver/Inc \
@@ -155,7 +156,12 @@ $(BUILD_DIR):
 # Local Deploy
 #######################################		
 flash-local: $(BUILD_DIR)/$(TARGET).bin
-	st-flash write $< 0x08000000
+ifeq ($(OS),Windows_NT)
+	@ST-LINK_CLI.exe -ME -P $< 0x08000000
+else  
+	@st-flash write $< 0x08000000
+endif
+	
 
 #######################################
 # Remote Deploy
