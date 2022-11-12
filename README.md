@@ -44,7 +44,7 @@ Entering Name of Key, example: **stm32key**
     ```
 4. Flash Remote device
     ```
-    make flash USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT={SSH_PORT}
+    make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT={SSH_PORT}
     ```
     **Example**
     ```
