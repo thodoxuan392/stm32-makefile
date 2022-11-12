@@ -40,7 +40,7 @@ Entering Name of Key, example: **stm32key**
 
     st-flash will automatically detect the target device in your machine.
     ```
-    make flash
+    make flash-local
     ```
 4. Flash Remote device
     ```
@@ -48,5 +48,5 @@ Entering Name of Key, example: **stm32key**
     ```
     **Example**
     ```
-    make flash USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=10865
+    make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=10865
     ```
