@@ -161,10 +161,18 @@ flash-local: $(BUILD_DIR)/$(TARGET).bin
 # Remote Deploy
 #######################################		
 flash-remote: $(BUILD_DIR)/$(TARGET).bin
+ifeq ($(OS),Windows_NT)
+	@echo "Copy file to Remote Server $(USER) $(PASSWD) $(SERVER):$(PORT)" 
+	@scp -o StrictHostKeyChecking=no -i ./Cert/key  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
+	@echo "Flash file to remote target device"
+	@ssh -o StrictHostKeyChecking=no -i ./Cert/key -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
+else  
 	@echo "Copy file to Remote Server $(USER) $(PASSWD) $(SERVER):$(PORT)" 
 	@sshpass -p "$(PASSWD)"  scp -o StrictHostKeyChecking=no -i ./Cert/key  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
 	@echo "Flash file to remote target device"
 	@sshpass -p "$(PASSWD)" ssh -o StrictHostKeyChecking=no -i ./Cert/key -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
+endif
+
 	
 
 #######################################
