@@ -42,11 +42,8 @@ BUILD_DIR = build
 ######################################
 # C sources
 
-ifeq ($(OS),Windows_NT)
-	C_SOURCES =  ${shell find ./ -type f -name "*.c"}
-else  
-	C_SOURCES =  ${shell find ./ -type f -name "*.c"}
-endif
+
+C_SOURCES =  ${shell find ./ -type f -name "*.c"}
 
 # ASM sources
 ASM_SOURCES =  Core/Startup/startup_stm32f103rbtx.s
