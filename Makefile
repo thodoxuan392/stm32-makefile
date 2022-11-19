@@ -19,7 +19,7 @@ include board.mk
 ######################################
 # target
 ######################################
-TARGET = stm32_f103rbt6
+TARGET = stm32
 
 
 ######################################
@@ -46,7 +46,7 @@ BUILD_DIR = build
 C_SOURCES =  ${shell find ./ -type f -name "*.c"}
 
 # ASM sources
-ASM_SOURCES =  Core/Startup/startup_stm32f103rbtx.s
+ASM_SOURCES =  ${shell find ./ -type f -name "*.s"}
 
 
 
@@ -109,7 +109,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F103RBTX_FLASH.ld
+LDSCRIPT = ${shell find ./ -type f -name "*.ld"}
 
 # libraries
 LIBS = -lc -lm -lnosys 
@@ -166,14 +166,14 @@ endif
 flash-remote: $(BUILD_DIR)/$(TARGET).bin
 ifeq ($(OS),Windows_NT)
 	@echo "Copy file to Remote Server $(USER) $(PASSWD) $(SERVER):$(PORT)" 
-	@scp -o StrictHostKeyChecking=no -i ./Cert/key  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
+	@scp -o StrictHostKeyChecking=no  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
 	@echo "Flash file to remote target device"
-	@ssh -o StrictHostKeyChecking=no -i ./Cert/key -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
+	@ssh -o StrictHostKeyChecking=no -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
 else  
 	@echo "Copy file to Remote Server $(USER) $(PASSWD) $(SERVER):$(PORT)" 
-	@sshpass -p "$(PASSWD)"  scp -o StrictHostKeyChecking=no -i ./Cert/key  -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
+	@sshpass -p "$(PASSWD)"  scp -o StrictHostKeyChecking=no   -P $(PORT)  $(BUILD_DIR)/$(TARGET).bin $(USER)@$(SERVER):~/
 	@echo "Flash file to remote target device"
-	@sshpass -p "$(PASSWD)" ssh -o StrictHostKeyChecking=no -i ./Cert/key -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
+	@sshpass -p "$(PASSWD)" ssh -o StrictHostKeyChecking=no  -p $(PORT)  $(USER)@$(SERVER) "st-flash write ~/$(TARGET).bin 0x08000000"
 endif
 
 	

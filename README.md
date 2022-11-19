@@ -3,51 +3,65 @@ This allow to normally develop in STM32CubeIDE, then deploy image to remote targ
 
 *Note* In case Flash remote device, Remote Machine must install SSH-Server.
 ## Prerequisite
-**In Remote Machine:**
-- SSH Server
-- ST-Tools , st-flash
 
 **In Local Machine**
 - Toolchains for Arm Cortex or install STM32CubeIDE
 - Make
+## Configuration Toolchain PATH
+- Default PATH: Version **stm32.9-2020-q2-update**
+    ```
+    C:/ST/STM32CubeIDE_1.7.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools
+    ```
+- Check PATH in STM32CubeIDE:
+
+    **Project**-> **Propertise** -> **C/C++ Build** -> **Environment**
+    
+    In the **Value** box, Get first element of **PATH**
+
+- Update PATH to [Toolchain file](./toolchain.mk)
+
+    ```
+    TOOLCHAIN_PATH = C:/ST/STM32CubeIDE_1.7.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools
+    ```
 
 ## Configuration Board
 In [Board Define file](./board.mk), you must change BOARD_FAMILY and BOARD_DEFINE same with your board
 
-## Configurate SSH Key-Pair
-You must create ssh-key in your machine, and add public key to remote machine.
-- Private Key will be located at [*Cert*](./Cert) folder.
-- Public Key will be put in Remote Server (https://ngrok.com/)
+**Example:** 
 
-Create SSHKEY-Pair
+Your board is **STM32F103C6**
 ```
-ssh-keygen
+BOARD_FAMILY = STM32F1xx
+BOARD_DEFINE = STM32F103x6
 ```
-Entering Name of Key, example: **stm32key**
+Your board is **STM32F103RBT6**
+```
+BOARD_FAMILY = STM32F1xx
+BOARD_DEFINE = STM32F103xB
+```
 
+## Build Project
+```
+make all
+```
+## Clean Project
+```
+make all
+```
+## Flash local device
+*Note: Only for Ubuntu*
 
+st-flash will automatically detect the target device in your machine.
+```
+make flash-local
+```
 
-## Step by Step
-1. Clean Project
-    ```
-    make clean
-    ```
-2. Compile Project
-    ```
-    make all
-    ```
-3. Flash local device
-
-    st-flash will automatically detect the target device in your machine.
-    ```
-    make flash-local
-    ```
-4. Flash Remote device
-    ```
-    make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT=(SSH_PORT)
-    ```
-    **Example**
-    ```
-    make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=15025
-    ```
-    *Note: The PORT or SSH_PORT can be changed. Please request new PORT at anytime access to deploy in remote device.*
+## Flash Remote device
+```
+make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) PORT=(SSH_PORT)
+```
+**Example**
+```
+make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=15025
+```
+*Note: The PORT or SSH_PORT can be changed. Please request new PORT at anytime access to deploy in remote device.*
