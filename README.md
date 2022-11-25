@@ -7,7 +7,7 @@ This allow to normally develop in STM32CubeIDE, then deploy image to remote targ
 **In Local Machine**
 - Toolchains for Arm Cortex or install STM32CubeIDE
 - Make
-## Configuration Toolchain PATH
+## Toolchain PATH Configuration
 - Default PATH: Version **stm32.9-2020-q2-update**
     ```
     C:/ST/STM32CubeIDE_1.7.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools
@@ -24,7 +24,7 @@ This allow to normally develop in STM32CubeIDE, then deploy image to remote targ
     TOOLCHAIN_PATH = C:/ST/STM32CubeIDE_1.7.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools
     ```
 
-## Configuration Board
+## Board Configuration 
 In [Board Define file](./board.mk), you must change BOARD_FAMILY and BOARD_DEFINE same with your board
 
 **Example:** 
