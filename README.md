@@ -46,7 +46,7 @@ make all
 ```
 ## Clean Project
 ```
-make all
+make clean
 ```
 ## Flash local device
 *Note: Only for Ubuntu*
@@ -62,6 +62,6 @@ make flash-remote USER=$(USERNAME) PASSWD=$(PASSOFUSER) SERVER=$(REMOTE_SERVER) 
 ```
 **Example**
 ```
-make flash-remote USER=xuanthodo PASSWD=22041999 SERVER=0.tcp.ap.ngrok.io PORT=15025
+make flash-remote USER=chipfc PASSWD=chipfc@123 SERVER=0.tcp.ap.ngrok.io PORT=18336
 ```
 *Note: The PORT or SSH_PORT can be changed. Please request new PORT at anytime access to deploy in remote device.*
